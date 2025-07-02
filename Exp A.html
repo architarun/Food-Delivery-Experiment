@@ -1,0 +1,549 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience A</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f8f8;
+    }
+    .header {
+      position:sticky;
+      top:0;
+      left:0;
+      z-index: 999999;
+    }
+
+    .shadow {
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 8px 6px -6px;
+    }
+
+    .container {
+      max-width: 430px;
+      margin: auto;
+      background: white;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+
+    .header img {
+      margin: 16px;
+      height: 20px;
+      object-fit: cover;
+    }
+
+    .restaurant-info {
+      padding: 16px;
+    }
+
+    .restaurant-info h1 {
+      font-weight: 400;
+      color: rgb(28, 28, 28);
+      margin: 0px;
+      font-size: 1.3rem;
+      line-height: 2.4rem;
+    }
+
+    .restaurant-info p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .rating {
+      display: inline-block;
+      background-color: rgb(38, 126, 62);
+      color: white;
+      font-size: 13px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    .search-bar {
+      padding: 8px 16px;
+      background: #fff;
+      position: sticky;
+      top: 52px;
+      z-index: 10;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .menu-section {
+      padding: 0 16px;
+    }
+
+    .menu-category {
+      font-weight: bold;
+      margin-top: 16px;
+      font-size: 16px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 4px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .item-left {
+      flex: 1;
+      width:50%;
+    }
+
+    .item-name {
+      font-size: 13px;
+      margin-bottom: 6px;
+      
+    }
+
+    .item-price {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .item-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 6px;
+      margin-left: 10px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .cart-control, .add-btn {
+      background-color: #E23744;
+      color: white;
+      border: none;
+      font-size: 14px;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .cart-control button {
+      background-color: #E23744;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .cart-control span {
+      background: white;
+      color: #2D2D2D;
+      padding: 4px 10px;
+    }
+
+    .add-btn {
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+
+    .cart-summary {
+      position: sticky;
+      bottom: 0;
+      background: #fff;
+      padding: 10px 16px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      align-items: center;
+    }
+
+    .reviews {
+      padding: 16px;
+      background: #fafafa;
+    }
+
+    .review {
+      margin-bottom: 12px;
+    }
+
+    .review h4 {
+      margin: 0;
+      font-size: 14px;
+    }
+    .checkoutButton {
+      background-color: #E23744;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width:40%;
+      font-size: 0.8rem;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .review p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header shadow" style="background-color: #E23744;padding: initial;">
+    <img src="Resources\ZOMATO.NS_BIG.D.png" height="50px" alt="Restaurant" margin="auto">
+  </div>
+  <div class="restaurant-info">
+    <h1>Domino's Pizza</h1>
+    <p>Pizza, Italian, Fast Food, Beverages · ₹300 for one</p>
+    <span class="rating">★ 4.3</span>
+  </div>
+
+  <div class="search-bar shadow">
+    <input type="text" id="searchInput" placeholder="Search menu..." oninput="renderMenu()">
+  </div>
+
+  <div class="menu-section" id="menu">
+    <div class="menu-category">Cheese Burst</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Chicken Biryani</div>
+        <div class="item-price">₹180</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?chicken,biryani">
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Paneer Butter Masala</div>
+        <div class="item-price">₹160</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?paneer,curry">
+    </div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Mutton Rogan Josh</div>
+        <div class="item-price">₹220</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?mutton,curry">
+    </div>
+    <div class="menu-category">Bread</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Tandoori Roti</div>
+        <div class="item-price">₹20</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?roti,indianbread">
+    </div>
+    <div class="menu-category">Dessert</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Gulab Jamun</div>
+        <div class="item-price">₹50</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?gulabjamun,dessert">
+    </div>
+    <div class="menu-category">Rice</div>
+    <div class="menu-item">
+      <div class="item-left">
+        <div class="item-name">Jeera Rice</div>
+        <div class="item-price">₹90</div>
+      </div>
+      <div>
+        <button class="add-btn">Add</button>
+      </div>
+      <img class="item-img" src="https://source.unsplash.com/70x70/?rice,jeerarice">
+    </div>
+  </div>
+  <div class="cart-summary" id="cartSummary" style="display: none;">
+    <span id="itemCount">0 items</span>
+    <div class="checkoutButton">
+      <div>
+        <span id="totalPrice">₹0</span>
+        <p style="margin-block-start: 0;margin-block-end: 0;">Total</p>
+      </div>
+      <span>Checkout ▶</span>
+    </div>
+  </div>
+
+<script>
+  const menuItems = [
+  { id: 1, name: 'Peppy Paneer Cheese Burst', price: 338, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/7cb/7e49fa4afad8de5f35dcad407c62a7cb.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 2, name: 'Farmhouse Cheese Burst', price: 348, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/360/23e8e57f38759abe1d00d2f2d0027360.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 3, name: 'Veggie Paradise Cheese Burst', price: 348, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/f94/46e09ecd659826d57b16bd26854d5f94.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 4, name: 'Margherita Cheese Burst', price: 188, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/fc0/cac9edb0a1701792958c03141c5f3fc0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 5, name: 'Spiced Double Chicken Pizza', price: 368, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/87e/f27758421f37cbaa2986fbad8bdac87e.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 6, name: 'Mexican Green Wave Cheese Burst', price: 348, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/38b/834319fb7a8c5a61d08ab17fdd21b38b.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 7, name: 'Pepper Barbecue Chicken Cheese Burst', price: 328, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/5ce/32b2a40fbba72fcc963bdc29f01895ce.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 8, name: 'Indi Tandoori Paneer Cheese Burst', price: 398, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/055/af042c5ad74d3346b869b839402a2055.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 9, name: 'Indi Chicken Tikka Cheese Burst', price: 448, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/248/af5e014632ca4e743adfefeacbcb6248.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 10, name: 'Double Cheese Margherita Cheese Burst', price: 278, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/d23/cc6c97229b97246db3b6ca9e8bdded23.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 11, name: 'Cheese n Corn Cheese Burst', price: 278, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/168/75c3665fbef1048c8bec5ef05ac10168.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 12, name: 'Chicken Golden Delight Cheese Burst', price: 378, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/fd9/6671265b6272658957d94ca2a75a7fd9.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 13, name: 'Chicken Fiesta Cheese Burst', price: 398, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/d4b/71b3f1f6d3211bc2f442588a5be56d4b.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 14, name: 'Fresh Veggie Cheese Burst', price: 288, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/f30/5035ef13a73f89b65b26f5e0e862df30.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 15, name: 'Chicken Pepperoni Cheese Burst', price: 448, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/fa1/63acfc33bbc9ca57c5cd13df010f2fa1.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 16, name: 'Achari Do Pyaza Cheese Burst', price: 258, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/31d/bc83d00e8fd24068c303fc2e2b74d31d.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 17, name: 'Chicken Sausage Cheese Burst', price: 288, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/0f6/bc28b417205b3c05d0b00c7eebdae0f6.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 18, name: 'Fiery Jalapeno & Paprika Pizza', price: 278, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/c5d/d84906f14e7e6bbc8341b390059a8c5d.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 19, name: 'Fiery Sausage & Paprika Pizza', price: 338, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/2f2/c91ef663707b95e950563255174db2f2.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 20, name: 'Blazing Onion & Paprika Pizza', price: 278, category: 'Cheese Burst', img: 'https://b.zmtcdn.com/data/dish_photos/8a0/25fa8e24f504ffb35d3e8753fb0bf8a0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 21, name: 'Saucy Boneless Chicken - Cream & Onion', price: 189, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/acd/0ee08d7696812fc761933d56eca32acd.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 22, name: 'Saucy Boneless Chicken - Peri Peri', price: 189, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/2ab/ca2d353b35ba5081175e7b12caa532ab.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 23, name: 'Saucy Chicken Pops - Cream & Onion', price: 149, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/af7/173f0bea85605888ec152d6d8aec0af7.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 24, name: 'Saucy Chicken Pops - Peri Peri', price: 149, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/42c/b3cd6a196ed3fb80b0f08aa83c97842c.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 25, name: 'Juicy Boneless Chicken', price: 159, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/6cd/e6fe5fcea62321aeafd5d9e6e7f4c6cd.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 26, name: 'Grilled Wings Signature Garlic', price: 179, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/782/44348a87b12f3b086fe259e30337c782.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 27, name: 'Grilled Wings Lemon Pepper', price: 179, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/158/4ea6f1ce3a8da0850df92fec06a08158.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 28, name: 'Grilled Wings Southern Spice', price: 179, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/ff1/557a373be1e362bb7f06ad64d9c9bff1.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 29, name: 'Mini Garlic Cheesiken Rice', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/1b0/854d924524891d3f018e0553d18f11b0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 30, name: 'Mini Tangy Tomato Cheesiken Rice', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/c20/f51eb30f4dcc2caef583b358cfe09c20.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 31, name: 'Mini Hot & Fiery Cheesiken Rice', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/9c6/320f7c5b27cb1121e69302e9373b69c6.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 32, name: 'Spicy Chicken Pops', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/c9e/b4c4ce43630b339b9293e83a27a22c9e.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 33, name: 'Spicy Crispy Chicken Wings', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/7cc/e6ee4b0f4aed034637ac28136b6657cc.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 34, name: 'Spicy Chicken Bombs', price: 119, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/593/490f670b7465589335c942873ec95593.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 35, name: 'Spicy Roasted Chicken Wings', price: 159, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/448/21b7354d499f214a8eff4dfca77e0448.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 36, name: 'Tangy Tomato Cheesiken', price: 169, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/3b7/b7aa7c02d966a641c1c57627c20df3b7.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 37, name: 'Garlic Cheesiken', price: 169, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/6c5/75229eb53d25014cf041d3b4823856c5.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 38, name: 'Hot & Fiery Cheesiken', price: 169, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/6c5/75229eb53d25014cf041d3b4823856c5.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 39, name: 'Tangy Tomato Cheesiken Rice', price: 219, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/3bc/1b9fe6f017c489858828c283fe0a03bc.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 40, name: 'Garlic Cheesiken Rice', price: 219, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/1b0/854d924524891d3f018e0553d18f11b0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 41, name: 'Hot & Fiery Cheesiken Rice', price: 219, category: 'Chicken Feast', img: 'https://b.zmtcdn.com/data/dish_photos/ed9/e97527f7bdc9633226a38dcbf73a8ed9.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 42, name: 'Garlic Chicken Burst (Reg)', price: 449, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/f34/464874de1b2d5740e75cb25091395f34.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 43, name: 'Tandoori Chicken Burst (Reg)', price: 449, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/adf/aba85eff71a6a2e56014bef45a500adf.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 44, name: 'Shawarma Chicken Burst (Reg)', price: 449, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/931/38d8dd3a8b1c24a8bc9c2eaa77f67931.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 45, name: 'Korean Chicken Burst (Reg)', price: 449, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/860/48e9fbf6a448353a4290fca0295b7860.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 46, name: 'Southern Spice Chicken Burst (Reg)', price: 449, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/3ff/37c2ff2edc2fbc7986cdc93c05d393ff.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 47, name: 'Tandoori Chicken Burst (Med)', price: 849, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/adf/aba85eff71a6a2e56014bef45a500adf.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 48, name: 'Garlic Chicken Burst (Med)', price: 849, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/f34/464874de1b2d5740e75cb25091395f34.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 49, name: 'Korean Chicken Burst (Med)', price: 849, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/860/48e9fbf6a448353a4290fca0295b7860.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 50, name: 'Shawarma Chicken Burst (Med)', price: 849, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/931/38d8dd3a8b1c24a8bc9c2eaa77f67931.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 51, name: 'Southern Spice Chicken Burst (Med)', price: 849, category: 'Chicken Burst', img: 'https://b.zmtcdn.com/data/dish_photos/3ff/37c2ff2edc2fbc7986cdc93c05d393ff.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 52, name: 'Cheese Volcano Peppy Paneer', price: 329, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/564/c35087e3c1dcb649fe15cd6abd5a0564.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 53, name: 'Cheese Volcano Farmhouse', price: 329, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/d4a/92375a86add669e61ff39aabccabfd4a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 54, name: 'Cheese Volcano Veg Paradise', price: 329, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/557/8e93479baa8d9a37fb0caf9e3e110557.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 55, name: 'Corn & Cheese Volcano', price: 329, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/f2f/a2220efc28e9fd3e6dfd5f942bf8ff2f.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 56, name: 'Cheese Volcano BBQ Chicken', price: 379, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/ac1/3c068ad0b657d4c42b771c0a2bc05ac1.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 57, name: 'Cheese Volcano Chicken Delight', price: 379, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/6d3/20bb20133a3ea52ffcc679f356ee76d3.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 58, name: 'Cheese Volcano Double Chicken', price: 379, category: 'Cheese Volcano', img: 'https://b.zmtcdn.com/data/dish_photos/8b3/74a5ada785ebe7beca1467b455d018b3.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 59, name: 'Margherita Pizza', price: 109, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/e84/7850b115687ee8594f9d7f0a66c2ee84.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 60, name: 'Blazing Onion & Paprika', price: 199, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/5b7/4742a79f16ebd58b804cd687df9535b7.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 61, name: 'Fiery Jalapeno & Paprika', price: 199, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/036/31e90935163b0704aea4abd388c11036.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 62, name: 'Double Cheese Margherita Pizza', price: 199, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/919/15c3a34b64ec4298f2a0778d1b008919.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 63, name: 'Fresh Veggie Pizza', price: 209, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/e4b/d9c548f1cb841844f151ffa3de873e4b.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 64, name: 'Cheese n Corn Pizza', price: 199, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/926/25f8cd12a914066c7c9627d42eafd926.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 65, name: 'Peppy Paneer Pizza', price: 259, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/434/0581f2e3b7d0b3ede4b476c1d64a6434.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 66, name: 'Chicken Sausage Pizza', price: 209, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/255/5779285fbfb3c04730f0b71ba4132255.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 67, name: 'Pepper Barbecue Chicken Pizza', price: 249, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/829/7602a3d88b2aeb0053954d96be9a9829.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 68, name: 'Fiery Sausage & Paprika', price: 259, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/cc2/2190eb54162d9a61e34e6970d53cbcc2.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 69, name: 'Spiced Double Chicken', price: 289, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/c38/613401a1232b2bd8ba3c5ecb6173dc38.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 70, name: 'Chicken Golden Delight Pizza', price: 299, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/997/c652efdd02d3134f4321e1fdc2787997.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 71, name: 'Chicken Pepperoni Pizza', price: 369, category: 'Dominos Classics', img: 'https://b.zmtcdn.com/data/dish_photos/66c/973d3c0fcc111b4c92bc49fbb775266c.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 72, name: 'Veggie Paradise Pizza', price: 269, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/72a/2a8ea479040d62f82871e1be7470672a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 73, name: 'Farmhouse Pizza', price: 269, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/5db/740a92bd202ffd40813bc354b86005db.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 74, name: 'Mexican Green Wave Pizza', price: 269, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/efb/0d1949eef23c572096269d890e438efb.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 75, name: 'Veg Extravaganza Pizza', price: 319, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/328/80355befb12f52c22eb75c6f865ca328.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 76, name: 'Cheese Overload', price: 349, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/773/fd7f927d5acf2244f17ec2a5b2512773.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 77, name: 'Chicken Fiesta Pizza', price: 319, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/acb/274348f5f584d2893c654f7880c3eacb.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 78, name: 'Chicken Dominator Pizza', price: 369, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/4db/22118134ebce9f89b2c12b95c19154db.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 79, name: 'Non Veg Supreme Pizza', price: 369, category: 'Loaded Pizza', img: 'https://b.zmtcdn.com/data/dish_photos/ef8/f03bf80c03fa196e84ccb8f2510b2ef8.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 80, name: 'Achari Do Pyaza Pizza', price: 179, category: 'Flavours of India', img: 'https://b.zmtcdn.com/data/dish_photos/d17/14d8197b31ae36df0b697ba52b204d17.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 81, name: 'Corn n Cheese Paratha Pizza', price: 189, category: 'Flavours of India', img: 'https://b.zmtcdn.com/data/dish_photos/8f8/4632dbb593cccf672f8e28638ce3e8f8.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 82, name: 'Indi Tandoori Paneer Pizza', price: 319, category: 'Flavours of India', img: 'https://b.zmtcdn.com/data/dish_photos/21a/010b29da595df93d828ca0dca935821a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 83, name: 'Indi Chicken Tikka Pizza', price: 369, category: 'Flavours of India', img: 'https://b.zmtcdn.com/data/dish_photos/45a/0e1a0ba55f0f03990c7e4331b404845a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 84, name: 'Primavera Gourmet-Pizza', price: 549, category: 'Gourmet Pizza Range', img: 'https://b.zmtcdn.com/data/dish_photos/b45/a4b6a1c5bd3c207359cf11c11fbb2b45.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 85, name: 'Al Fungi Gourmet-Pizza', price: 549, category: 'Gourmet Pizza Range', img: 'https://b.zmtcdn.com/data/dish_photos/6cd/88fa68bc5734468f0bb187040fa7d6cd.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 86, name: 'Chicken Pepperoni Gourmet-Pizza', price: 629, category: 'Gourmet Pizza Range', img: 'https://b.zmtcdn.com/data/dish_photos/cdc/1215cb110fe5a5d304f1057b30d93cdc.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 87, name: 'Smoked Chicken Gourmet-Pizza', price: 629, category: 'Gourmet Pizza Range', img: 'https://b.zmtcdn.com/data/dish_photos/f7c/140504d799d8185289a286a857072f7c.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 88, name: 'Quattro Formaggi Gourmet-Pizza', price: 549, category: 'Gourmet Pizza Range', img: 'https://b.zmtcdn.com/data/dish_photos/07a/b3a64b833dad54028c395233378f807a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 89, name: 'Paneer, Onion & Capsicum with Desi Makhani Sauce', price: 129, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/6d2/d3dcf25529b780071e99443e0fff16d2.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 90, name: 'Non Veg Loaded', price: 199, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/b7d/fe37811c8d1a9b0c5923ff1a60926b7d.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 91, name: 'Veg Loaded', price: 189, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/e66/67f137415f266758203dea6e20d5ee66.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 92, name: 'Paneer & Capsicum with Videshi Hot Sauce', price: 99, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/b94/19e473103f43185544a02acd6c842b94.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 93, name: 'Capsicum & Red Paprika with Videshi Hot Sauce', price: 89, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/cc6/8a2543c260fc6d8f461de94481723cc6.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 94, name: 'Pepper Barbecue Chicken', price: 109, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/b46/352e0cafc4caef8ef5f4eac224b1db46.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 95, name: 'Chicken Sausage', price: 109, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/904/991a7fd58aa8d1598537b965937fd904.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 96, name: 'Golden Corn', price: 79, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/3e0/a302da0d414837495c1576b64dd943e0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 97, name: 'Classic', price: 49, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/3c8/f05bf56a2943904aff5e4a8357a4c3c8.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 98, name: 'Onion', price: 69, category: 'Pizza Mania', img: 'https://b.zmtcdn.com/data/dish_photos/02c/2cdd0e3b01910393d5e9361822b1b02c.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 99, name: 'Korean Corn & Jalapeno Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/f6d/29579c7d8e79f35a35f70e8f937d4f6d.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 100, name: 'Fiery Corn & Jalapeno Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/8e6/aa4e4f7157bc6f587380d6d38e4038e6.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 101, name: 'Makhani Corn & Jalapeno Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/827/46736043c67f0214d0d44a879b7d2827.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 102, name: 'Korean Paneer Tikka Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/32b/4d8da033d58d8cea00a045224b4e432b.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 103, name: 'Fiery Paneer Tikka Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/3c0/49450e1b98e81be40c739298dfcf33c0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 104, name: 'Makhani Paneer Tikka Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/cbf/db22110697446065bd79e4500a165cbf.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 105, name: 'Korean Pepperoni Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/0b1/f58aa470990466b2bd0d9c6c9336c0b1.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 106, name: 'Fiery Pepperoni Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/f7e/7a36cb40d7b1483c4067d1136dc51f7e.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 107, name: 'Makhani Pepperoni Garlic Bread', price: 189, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/d58/9ca0409dcb9e492b2432fc1436366d58.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 108, name: 'Garlic Breadsticks + Cheesy Dip', price: 137.57, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/735/c74e28521828e6654a5ecffff1de9735.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 109, name: 'Garlic Breadsticks', price: 109, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/b4e/1633e1c6916141a456e5c4dbda6c0b4e.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 110, name: 'Classic Stuffed Garlic Bread', price: 149, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/714/676c42f9653340f8fec500bedbab2714.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 111, name: 'Cheesy Dip', price: 28.57, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/48a/a325ca68cb886844e4864a43f7cdf48a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 112, name: 'Paneer Tikka Stuffed Garlic Bread', price: 159, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/ad4/a3aea7aa78dad6063b9e58dffe137ad4.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 113, name: 'Chicken Pepperoni Stuffed Garlic Bread', price: 169, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/7d0/bef98f394ddb464599cad2b3fe34d7d0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 114, name: 'Taco Mexicana Veg', price: 135, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/178/bff19c7eeec11a2f3da22516d169b178.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 115, name: 'Taco Mexicana Non Veg', price: 169, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/636/118610bb1b497c0090177b709a452636.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 116, name: 'Veg Parcel', price: 49, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/e1e/8ba74a9b3310071b1d40233779a13e1e.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 117, name: 'Chicken Parcel', price: 59, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/2c5/71db5a4175ec65fee10846a8eae012c5.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 118, name: 'Burger Pizza - Classic Veg', price: 125, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/85d/afe9096778a80464e5fe9e31ee4fa85d.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 119, name: 'Burger Pizza - Premium Veg', price: 155, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/e71/a7781f70e2a27ec2cac3d95ffd7a7e71.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 120, name: 'Burger Pizza - Classic Non Veg', price: 169, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/0a4/9e550e800c4d644bca300bc656e250a4.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 121, name: 'Harissa Dip', price: 46.67, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/895/9a27f14dd6535b2e4017451a6b7ea895.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 122, name: 'Tomato Ketchup', price: 1.90, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/9a0/84c5c43ae99bf786eb693b274194c9a0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 123, name: 'Taco Mexicana Veg (Single)', price: 79, category: 'Garlic Breads & More', img: 'https://b.zmtcdn.com/data/dish_photos/3b6/50bf5f2488d4d147fbd6adf0c47b63b6.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 124, name: 'Red Velvet Lava Cake', price: 139, category: 'Desserts', img: 'https://b.zmtcdn.com/data/dish_photos/59f/5b3d592a85ad33a732d18bb41fdfc59f.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 125, name: 'Choco Lava Cake', price: 109, category: 'Desserts', img: 'https://b.zmtcdn.com/data/dish_photos/115/517791a68253a9a5084664b470f6e115.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 126, name: 'Butterscotch Mousse Cake', price: 104, category: 'Desserts', img: 'https://b.zmtcdn.com/data/dish_photos/a3a/e91002ccf7239fffeceaab4956a15a3a.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 127, name: 'Coca Cola 475ml', price: 66.66, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/ccd/e21256199dc837c68020b507a9d22ccd.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 128, name: 'Sprite 475ml', price: 66.66, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/710/9304a61166447d3b2f5d3ca5c02ad710.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 129, name: 'Coca Cola Zero Sugar 330ml', price: 66.66, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/5d0/8f1df4ba2858d1a9211a3090709e85d0.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 130, name: 'Nagpur Orange', price: 71.43, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/192/cace054d6d50a3af9f62284a5ce99192.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 131, name: 'B Natural Alphonsos from Ratnagiri (300 ml)', price: 71.43, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/208/a44d305e21b475f5273b900300518208.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 132, name: 'B Natural Mixed Fruit from Himalayas (300 ml)', price: 71.43, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/e8c/7f82838f68c1908ca6db2141cf7c5e8c.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 133, name: 'Aquavess Water (500ml)', price: 28.58, category: 'Drinks (Beverages)', img: 'https://b.zmtcdn.com/data/dish_photos/623/03eddcbb8c9fbbb5e61e0ba3df591623.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 134, name: 'Margherita Pizza Regular', price: 109, category: 'Pizza & More', img: 'https://b.zmtcdn.com/data/dish_photos/e84/7850b115687ee8594f9d7f0a66c2ee84.jpeg?fit=around|85:85&crop=85:85;*,*' },
+  { id: 135, name: 'Classic Pizza Mania', price: 49, category: 'Pizza & More', img: 'https://b.zmtcdn.com/data/dish_photos/3c8/f05bf56a2943904aff5e4a8357a4c3c8.jpeg?fit=around|85:85&crop=85:85;*,*' }
+
+  
+  
+];
+
+
+  const cart = {};
+  const menuContainer = document.getElementById('menu');
+  const cartSummary = document.getElementById('cartSummary');
+  const itemCount = document.getElementById('itemCount');
+  const totalPrice = document.getElementById('totalPrice');
+
+  function renderMenu() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const categories = [...new Set(menuItems.map(i => i.category))];
+  menuContainer.innerHTML = '';
+
+  categories.forEach(category => {
+    const filteredItems = menuItems.filter(item =>
+      item.category === category && item.name.toLowerCase().includes(search)
+    );
+    if (filteredItems.length === 0) return;
+
+    const catHeader = document.createElement('div');
+    catHeader.className = 'menu-category';
+    catHeader.textContent = category;
+    menuContainer.appendChild(catHeader);
+
+    filteredItems.forEach(item => {
+      const qty = cart[item.id] || 0;
+
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'menu-item';
+
+      // Create image first (on left)
+      const img = document.createElement('img');
+      img.className = 'item-img';
+      img.src = item.img;
+
+      // Create item info section
+      const itemLeft = document.createElement('div');
+      itemLeft.className = 'item-left';
+      itemLeft.innerHTML = `
+        <div class="item-name">${item.name}</div>
+        <div class="item-price">₹${item.price}</div>
+      `;
+
+      // Create action area (Add or +/- controls)
+      const action = document.createElement('div');
+      if (qty === 0) {
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add-btn';
+        addBtn.textContent = 'Add';
+        addBtn.onclick = () => {
+          cart[item.id] = 1;
+          updateCart();
+          renderMenu();
+        };
+        action.appendChild(addBtn);
+      } else {
+        const control = document.createElement('div');
+        control.className = 'cart-control';
+
+        const minus = document.createElement('button');
+        minus.textContent = '−';
+        minus.onclick = () => {
+          cart[item.id]--;
+          if (cart[item.id] <= 0) delete cart[item.id];
+          updateCart();
+          renderMenu();
+        };
+
+        const count = document.createElement('span');
+        count.textContent = qty;
+
+        const plus = document.createElement('button');
+        plus.textContent = '+';
+        plus.onclick = () => {
+          cart[item.id]++;
+          updateCart();
+          renderMenu();
+        };
+
+        control.appendChild(minus);
+        control.appendChild(count);
+        control.appendChild(plus);
+        action.appendChild(control);
+      }
+
+      // Append in the correct order: Image - Text - Button
+      itemDiv.appendChild(img);
+      itemDiv.appendChild(itemLeft);
+      itemDiv.appendChild(action);
+      menuContainer.appendChild(itemDiv);
+    });
+  });
+}
+
+  function updateCart() {
+    const entries = Object.entries(cart);
+    let count = 0, total = 0;
+    entries.forEach(([id, qty]) => {
+      const item = menuItems.find(i => i.id == id);
+      count += qty;
+      total += qty * item.price;
+    });
+
+    if (count > 0) {
+      cartSummary.style.display = 'flex';
+      itemCount.textContent = `${count} item${count > 1 ? 's' : ''} added!`;
+      totalPrice.textContent = `₹${total}`;
+    } else {
+      cartSummary.style.display = 'none';
+    }
+  }
+
+  renderMenu();
+</script>
+
+
+
+</body></html>
