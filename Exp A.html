@@ -377,6 +377,9 @@
 </div>
 
 <script>
+    // --- TRACKING ---
+    var decreaseCounter = 0;
+    var abandonCounter = 0;
     // --- DATA ---
     const menuItems = [
         // --- Cheese Burst Pizzas ---
@@ -723,6 +726,7 @@
                     const key = cartKeys[i];
                     if (cart[key].itemId == id) {
                         cart[key].quantity--;
+                        decreaseCounter++;
                         if (cart[key].quantity === 0) delete cart[key];
                         break; 
                     }
@@ -791,12 +795,15 @@
                     <div class="cart-items" id="cart-items-container-unique"></div>
                     <div class="popup-footer">
                         <div class="cart-total">
-                            <span>Grand Total</span>
+                            <span>Grand Total 
+                              <p style="font-size: 0.6rem !important;font-weight: 100;margin-top: 0;"> Is this suitable according to your budget?</p>
+                            </span>
                             <span id="cart-total-price-unique">₹0.00</span>
                         </div>
+                        <p style="font-weight: bold;text-align: center;"> Would you like to reconsider?</p>
                         <div class="button-group">
-                            <button class="btn btn-secondary" id="go-back-btn-unique">Go Back</button>
-                            <button class="btn btn-primary" id="confirm-btn-unique">Confirm</button>
+                            <button class="btn btn-primary" id="go-back-btn-unique">Yes</button>
+                            <button class="btn btn-secondary" id="confirm-btn-unique">No</button>
                         </div>
                     </div>
                 </div>
@@ -858,6 +865,7 @@
             function hidePopup() {
                 overlay.classList.remove('active');
                 document.documentElement.classList.remove('cart-popup-is-open');
+                abandonCounter++;
             }
 
             // --- Event Listeners ---
@@ -889,6 +897,176 @@
             });
         });
     })();
+</script>
+<script>
+  const scrollAnalytics = (() => {
+  // --- Private State Variables ---
+  let startTime = null;
+  let isTracking = false;
+  
+  // Variables for tracking scroll direction with a threshold
+  let scrollDirectionChanges = 0;
+  let lastScrollTop = 0;
+  let anchorDirection = null; // The direction being measured ('up' or 'down')
+  let anchorTop = 0; // The scroll position where the current direction began
+  
+  // The minimum pixels a user must scroll in one direction to count it.
+  const SCROLL_THRESHOLD = 50; 
+
+  /**
+   * Creates and displays a full-screen popup with the final results.
+   * @param {object} results - An object containing the final metrics.
+   * @param {number|null} results.time - The total time elapsed in seconds.
+   * @param {number|null} results.changes - The total number of scroll direction changes.
+   * @param {boolean} results.wasScrolled - True if scrolling occurred.
+   */
+  const showResultsPopup = (results) => {
+    // Create popup elements
+    const overlay = document.createElement('div');
+    const modal = document.createElement('div');
+    const heading = document.createElement('h2');
+
+    // Populate content based on whether the user scrolled
+    heading.textContent = 'Simulation Completed!';
+    if (results.wasScrolled) {
+      const timeResult = document.createElement('p');
+      const changesResult = document.createElement('p');
+      const abandonResult = document.createElement('p');
+      const decreaseResult = document.createElement('p');
+      timeResult.textContent = `Time from first scroll to click: ${results.time.toFixed(2)} seconds.`;
+      changesResult.textContent = `Number of scroll direction changes: ${results.changes}.`;
+      abandonResult.textContent = `Number of cart abandoned: ${abandonCounter}.`;
+      decreaseResult.textContent = `Number of items decreased: ${decreaseCounter}.`;
+      modal.appendChild(timeResult);
+      modal.appendChild(changesResult);
+      modal.appendChild(abandonResult);
+      modal.appendChild(decreaseResult);
+    } else {
+      const noScrollResult = document.createElement('p');
+      noScrollResult.textContent = 'No scrolling was detected before the button was clicked.';
+      modal.appendChild(noScrollResult);
+    }
+    
+
+    // --- Styling (applied directly for portability) ---
+    Object.assign(overlay.style, {
+      position: 'fixed', top: '0', left: '0',
+      width: '100vw', height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      zIndex: '10000', fontFamily: 'Arial, sans-serif'
+    });
+    Object.assign(modal.style, {
+      background: 'white', padding: '2rem 3rem', borderRadius: '12px',
+      textAlign: 'center', boxShadow: '0 5px 20px rgba(0,0,0,0.3)'
+    });
+    // Assemble the popup
+    modal.insertBefore(heading, modal.firstChild);
+    overlay.appendChild(modal);
+
+
+    // Add the popup to the page
+    document.body.appendChild(overlay);
+  };
+
+  /**
+   * Handles the scroll event to track direction changes with a threshold.
+   */
+  const handleScroll = () => {
+    // On the first scroll, record the start time and set initial positions.
+    if (!isTracking) {
+      isTracking = true;
+      startTime = new Date();
+      lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      anchorTop = lastScrollTop;
+      return; // Wait for the next scroll event to determine direction
+    }
+
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (Math.abs(currentScrollTop - lastScrollTop) < 2) return; // Ignore tiny movements
+
+    const currentDirection = currentScrollTop > lastScrollTop ? 'down' : 'up';
+    
+    // If this is the first movement, set the anchor direction
+    if (!anchorDirection) {
+        anchorDirection = currentDirection;
+    }
+
+    // If the direction flips from our established anchor direction...
+    if (currentDirection !== anchorDirection) {
+        // ...check if the distance scrolled in the previous direction met the threshold.
+        const distanceScrolled = Math.abs(lastScrollTop - anchorTop);
+        if (distanceScrolled >= SCROLL_THRESHOLD) {
+            scrollDirectionChanges++;
+        }
+        
+        // The direction has flipped, so reset the anchor for the new direction.
+        anchorDirection = currentDirection;
+        anchorTop = lastScrollTop;
+    }
+
+    // Update position for the next event
+    lastScrollTop = currentScrollTop;
+  };
+
+  /**
+   * Handles the click on the target element to stop tracking and report results.
+   * @param {Event} event - The click event object.
+   */
+  const handleClick = (event) => {
+    // If the user clicked without ever scrolling.
+    if (!isTracking) {
+      showResultsPopup({ wasScrolled: false });
+      return;
+    }
+    
+    // Before stopping, check if the very last scroll segment met the threshold.
+    const lastDistanceScrolled = Math.abs(lastScrollTop - anchorTop);
+    if (anchorDirection && lastDistanceScrolled >= SCROLL_THRESHOLD) {
+        scrollDirectionChanges++;
+    }
+
+    const endTime = new Date();
+    const timeElapsed = (endTime - startTime) / 1000;
+
+    // Display the results in the popup
+    showResultsPopup({
+      time: timeElapsed,
+      changes: scrollDirectionChanges,
+      wasScrolled: true
+    });
+
+    // --- Cleanup ---
+    window.removeEventListener('scroll', handleScroll);
+    event.currentTarget.removeEventListener('click', handleClick);
+  };
+
+  /**
+   * Public method to initialize the tracker.
+   * @param {string} elementSelector - The CSS selector for the element to click.
+   */
+  const start = (elementSelector) => {
+    const targetElement = document.querySelector(elementSelector);
+
+    if (!targetElement) {
+      console.error(`Scroll Analytics Error: Element "${elementSelector}" not found.`);
+      return;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    targetElement.addEventListener('click', handleClick);
+  };
+
+  return {
+    start: start
+  };
+})();
+
+// --- How to Use ---
+// Call this after the DOM is fully loaded to ensure the button exists.
+document.addEventListener('DOMContentLoaded', () => {
+  scrollAnalytics.start('#confirm-btn-unique');
+});
 </script>
 </body>
 </html>
