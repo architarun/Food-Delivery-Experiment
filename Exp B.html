@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zomato Menu Clone</title>
+  <title>Exp B by Archit A</title>
   <style>
     body {
       margin: 0;
@@ -329,7 +329,7 @@
 
 <div class="container">
   <div class="header shadow">
-    <img src="https://b.zmtcdn.com/web_assets/b40b97e6772546b21c0757a24422a7471590522531.png" alt="Zomato">
+    <img src="Resources\ZOMATO.NS_BIG.D.png" alt="Zomato">
   </div>
   <div class="restaurant-info">
     <h1>Domino's Pizza</h1>
@@ -351,7 +351,7 @@
         <span id="totalPrice">₹0</span>
         <p>Total</p>
       </div>
-      <span>Checkout ▶</span>
+      <span>View Cart ▶</span>
     </div>
   </div>
 </div>
@@ -377,8 +377,11 @@
 </div>
 
 <script>
+    // --- TRACKING ---
+    var decreaseCounter = 0;
+    var abandonCounter = 0;
     // --- DATA ---
-   const menuItems = [
+const menuItems = [
     // --- Cheese Burst ---
     { id: 1, name: 'Peppy Paneer Cheese Burst', price: 338, category: 'Cheese Burst', description: 'Spicy paneer, crisp capsicum, and red paprika on a cheese-filled crust.', img: 'https://b.zmtcdn.com/data/dish_photos/7cb/7e49fa4afad8de5f35dcad407c62a7cb.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 4, name: 'Margherita Cheese Burst', price: 188, category: 'Cheese Burst', description: 'A classic favorite with a cheesy twist. Simple, yet delicious.', img: 'https://b.zmtcdn.com/data/dish_photos/fc0/cac9edb0a1701792958c03141c5f3fc0.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
@@ -473,6 +476,7 @@
     // --- Pizza & More ---
     { id: 134, name: 'Margherita Pizza Regular', price: 109, category: 'Pizza & More', description: 'The timeless classic with a generous layer of mozzarella cheese.', img: 'https://b.zmtcdn.com/data/dish_photos/e84/7850b115687ee8594f9d7f0a66c2ee84.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true }
 ];
+
 
     const toppings = [
         { name: 'Extra Cheese', price: 50 }, { name: 'Onion', price: 20 },
@@ -668,6 +672,7 @@
                     const key = cartKeys[i];
                     if (cart[key].itemId == id) {
                         cart[key].quantity--;
+                        decreaseCounter++;
                         if (cart[key].quantity === 0) delete cart[key];
                         break; 
                     }
@@ -694,6 +699,322 @@
         fabCategoryList.addEventListener('click', handleFabCategoryClick);
     });
 </script>
+<script>
+    // IIFE to create a private scope and avoid conflicts with other scripts.
+    (function() {
 
+                // --- STYLES (as a string) ---
+        // These styles are self-contained and will be injected into the <head>
+        const cssStyles = `
+            html.cart-popup-is-open { overflow: hidden; }
+            .checkout-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); z-index: 1000; display: none; justify-content: center; align-items: flex-end; }
+            .checkout-popup { background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; width: 100%; max-width: 500px; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; animation: cart-slideUp 0.3s ease-out; }
+            @keyframes cart-slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .checkout-overlay.active { display: flex; }
+            .popup-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #e0e0e0; }
+            .popup-header h2 { margin: 0; font-size: 1.2rem; color: #1a1a1a; }
+            .close-btn { background: #f0f0f0; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 1.5rem; line-height: 32px; text-align: center; cursor: pointer; color: #555; }
+            .cart-items { overflow-y: auto; padding: 8px 20px; flex-grow: 1; }
+            .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+            .cart-item:last-child { border-bottom: none; }
+            .item-details { flex-grow: 1; margin-right: 16px; }
+            .item-name { font-weight: 600; color: #333; }
+            .item-toppings { font-size: 0.85rem; color: #666; margin-top: 4px; }
+            .item-price { font-weight: 600; color: #1a1a1a; white-space: nowrap; }
+            .popup-footer { padding: 16px 20px; border-top: 1px solid #e0e0e0; background-color: #fff; }
+            .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; }
+            .cart-total span { font-size: 1.1rem; font-weight: bold; color: #1a1a1a; }
+            .button-group { display: flex; gap: 12px; }
+            .btn { flex-grow: 1; padding: 14px; border-radius: 12px; border: none; font-size: 1rem; font-weight: 600; cursor: pointer; }
+            .btn-secondary { background-color: #e8e8e8; color: #333; }
+            .btn-primary { background-color: #E23744; color: white; }
+        `;
+
+        // --- POPUP HTML (as a string) ---
+        const popupHTML = `
+            <div class="checkout-overlay" id="checkout-overlay-unique">
+                <div class="checkout-popup" id="checkout-popup-unique">
+                    <div class="popup-header">
+                        <h2>Your Order</h2>
+                        <button class="close-btn" id="close-popup-btn-unique">&times;</button>
+                    </div>
+                    <div class="cart-items" id="cart-items-container-unique"></div>
+                    <div class="popup-footer">
+                        <div class="cart-total">
+                            <span>Grand Total 
+                              <p style="font-size: 0.8rem !important;font-weight: 500;margin-top: 0;"> Is this suitable according to your budget?</p>
+                            </span>
+                            <span id="cart-total-price-unique">₹0.00</span>
+                        </div>
+                        <p style="font-weight: bold;text-align: center;">Would you like to reconsider your cart options?</p>
+                        <div class="button-group">
+                            <button class="btn btn-primary" id="go-back-btn-unique">Yes</button>
+                            <button class="btn btn-secondary" id="confirm-btn-unique">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+        function initializeCartComponent() {
+            const styleElement = document.createElement('style');
+            styleElement.textContent = cssStyles;
+            document.head.appendChild(styleElement);
+            document.body.insertAdjacentHTML('beforeend', popupHTML);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCartComponent();
+
+            // Select all elements for the popup
+            const overlay = document.getElementById('checkout-overlay-unique');
+            const closePopupBtn = document.getElementById('close-popup-btn-unique');
+            const itemsContainer = document.getElementById('cart-items-container-unique');
+            const totalPriceEl = document.getElementById('cart-total-price-unique');
+            const goBackBtn = document.getElementById('go-back-btn-unique');
+            const confirmBtn = document.getElementById('confirm-btn-unique');
+
+            // Find the user's checkout button(s) by class name
+            const checkoutButtons = document.querySelectorAll('.checkoutButton');
+
+            function renderCart() {
+                itemsContainer.innerHTML = '';
+                let grandTotal = 0;
+                const cartItems = Object.keys(cart);
+
+                if (cartItems.length === 0) {
+                    itemsContainer.innerHTML = '<p style="text-align: center; color: #888; padding: 40px 0;">Your cart is empty.</p>';
+                } else {
+                    cartItems.forEach(key => {
+                        const item = cart[key];
+                        grandTotal += item.finalPrice;
+                        const toppingsHTML = item.toppings.length > 0 ? `<div class="item-toppings">Toppings: ${item.toppings.join(', ')}</div>` : '';
+                        const itemHTML = `
+                            <div class="cart-item">
+                                <div class="item-details">
+                                    <div class="item-name">${item.quantity} &times; ${item.name}</div>
+                                    ${toppingsHTML}
+                                </div>
+                                <div class="item-price">₹${item.finalPrice.toFixed(2)}</div>
+                            </div>`;
+                        itemsContainer.insertAdjacentHTML('beforeend', itemHTML);
+                    });
+                }
+                totalPriceEl.textContent = `₹${grandTotal.toFixed(2)}`;
+            }
+
+            function showPopup() {
+                renderCart();
+                overlay.classList.add('active');
+                document.documentElement.classList.add('cart-popup-is-open');
+            }
+
+            function hidePopup() {
+                overlay.classList.remove('active');
+                document.documentElement.classList.remove('cart-popup-is-open');
+                abandonCounter++;
+            }
+
+            // --- Event Listeners ---
+
+            // Attach the 'showPopup' function to all found checkout buttons
+            if (checkoutButtons.length > 0) {
+                checkoutButtons.forEach(button => {
+                    button.addEventListener('click', showPopup);
+                });
+            } else {
+                console.warn('Cart Popup Warning: No element with class "checkoutButton" was found on the page.');
+            }
+
+            // Listeners for controls inside the popup
+            closePopupBtn.addEventListener('click', hidePopup);
+            overlay.addEventListener('click', (event) => {
+                if (event.target === overlay) hidePopup();
+            });
+            goBackBtn.addEventListener('click', hidePopup);
+            confirmBtn.addEventListener('click', () => {
+                if (Object.keys(cart).length === 0) {
+                    alert('Your cart is empty. Please add items before confirming.');
+                    return;
+                }
+                
+                console.log('Confirmed Order Details:', cart);
+                cart = {}; // Example: clear cart after confirmation
+                hidePopup();
+                abandonCounter--;
+            });
+        });
+    })();
+</script>
+<script>
+  const scrollAnalytics = (() => {
+  // --- Private State Variables ---
+  let startTime = null;
+  let isTracking = false;
+  
+  // Variables for tracking scroll direction with a threshold
+  let scrollDirectionChanges = 0;
+  let lastScrollTop = 0;
+  let anchorDirection = null; // The direction being measured ('up' or 'down')
+  let anchorTop = 0; // The scroll position where the current direction began
+  
+  // The minimum pixels a user must scroll in one direction to count it.
+  const SCROLL_THRESHOLD = 50; 
+
+  /**
+   * Creates and displays a full-screen popup with the final results.
+   * @param {object} results - An object containing the final metrics.
+   * @param {number|null} results.time - The total time elapsed in seconds.
+   * @param {number|null} results.changes - The total number of scroll direction changes.
+   * @param {boolean} results.wasScrolled - True if scrolling occurred.
+   */
+  const showResultsPopup = (results) => {
+    // Create popup elements
+    const overlay = document.createElement('div');
+    const modal = document.createElement('div');
+    const heading = document.createElement('h2');
+
+    // Populate content based on whether the user scrolled
+    heading.textContent = 'Simulation Completed!';
+    if (results.wasScrolled) {
+      const timeResult = document.createElement('p');
+      const changesResult = document.createElement('p');
+      const abandonResult = document.createElement('p');
+      const decreaseResult = document.createElement('p');
+      timeResult.textContent = `Time from first scroll to click: ${results.time.toFixed(2)} seconds.`;
+      changesResult.textContent = `Number of scroll direction changes: ${results.changes}.`;
+      abandonResult.textContent = `Number of cart abandoned: ${abandonCounter}.`;
+      decreaseResult.textContent = `Number of items decreased: ${decreaseCounter}.`;
+      modal.appendChild(timeResult);
+      modal.appendChild(changesResult);
+      modal.appendChild(abandonResult);
+      modal.appendChild(decreaseResult);
+    } else {
+      const noScrollResult = document.createElement('p');
+      noScrollResult.textContent = 'No scrolling was detected before the button was clicked.';
+      modal.appendChild(noScrollResult);
+    }
+    
+
+    // --- Styling (applied directly for portability) ---
+    Object.assign(overlay.style, {
+      position: 'fixed', top: '0', left: '0',
+      width: '100vw', height: '100vh',
+      backgroundColor: 'rgba(0, 0, 0, 0.75)',
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      zIndex: '10000', fontFamily: 'Arial, sans-serif'
+    });
+    Object.assign(modal.style, {
+      background: 'white', padding: '2rem 3rem', borderRadius: '12px',
+      textAlign: 'center', boxShadow: '0 5px 20px rgba(0,0,0,0.3)'
+    });
+    // Assemble the popup
+    modal.insertBefore(heading, modal.firstChild);
+    overlay.appendChild(modal);
+
+
+    // Add the popup to the page
+    document.body.appendChild(overlay);
+  };
+
+  /**
+   * Handles the scroll event to track direction changes with a threshold.
+   */
+  const handleScroll = () => {
+    // On the first scroll, record the start time and set initial positions.
+    if (!isTracking) {
+      isTracking = true;
+      startTime = new Date();
+      lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      anchorTop = lastScrollTop;
+      return; // Wait for the next scroll event to determine direction
+    }
+
+    const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (Math.abs(currentScrollTop - lastScrollTop) < 2) return; // Ignore tiny movements
+
+    const currentDirection = currentScrollTop > lastScrollTop ? 'down' : 'up';
+    
+    // If this is the first movement, set the anchor direction
+    if (!anchorDirection) {
+        anchorDirection = currentDirection;
+    }
+
+    // If the direction flips from our established anchor direction...
+    if (currentDirection !== anchorDirection) {
+        // ...check if the distance scrolled in the previous direction met the threshold.
+        const distanceScrolled = Math.abs(lastScrollTop - anchorTop);
+        if (distanceScrolled >= SCROLL_THRESHOLD) {
+            scrollDirectionChanges++;
+        }
+        
+        // The direction has flipped, so reset the anchor for the new direction.
+        anchorDirection = currentDirection;
+        anchorTop = lastScrollTop;
+    }
+
+    // Update position for the next event
+    lastScrollTop = currentScrollTop;
+  };
+
+  /**
+   * Handles the click on the target element to stop tracking and report results.
+   * @param {Event} event - The click event object.
+   */
+  const handleClick = (event) => {
+    // If the user clicked without ever scrolling.
+    if (!isTracking) {
+      showResultsPopup({ wasScrolled: false });
+      return;
+    }
+    
+    // Before stopping, check if the very last scroll segment met the threshold.
+    const lastDistanceScrolled = Math.abs(lastScrollTop - anchorTop);
+    if (anchorDirection && lastDistanceScrolled >= SCROLL_THRESHOLD) {
+        scrollDirectionChanges++;
+    }
+
+    const endTime = new Date();
+    const timeElapsed = (endTime - startTime) / 1000;
+
+    // Display the results in the popup
+    showResultsPopup({
+      time: timeElapsed,
+      changes: scrollDirectionChanges,
+      wasScrolled: true
+    });
+
+    // --- Cleanup ---
+    window.removeEventListener('scroll', handleScroll);
+    event.currentTarget.removeEventListener('click', handleClick);
+  };
+
+  /**
+   * Public method to initialize the tracker.
+   * @param {string} elementSelector - The CSS selector for the element to click.
+   */
+  const start = (elementSelector) => {
+    const targetElement = document.querySelector(elementSelector);
+
+    if (!targetElement) {
+      console.error(`Scroll Analytics Error: Element "${elementSelector}" not found.`);
+      return;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    targetElement.addEventListener('click', handleClick);
+  };
+
+  return {
+    start: start
+  };
+})();
+
+// --- How to Use ---
+// Call this after the DOM is fully loaded to ensure the button exists.
+document.addEventListener('DOMContentLoaded', () => {
+  scrollAnalytics.start('#confirm-btn-unique');
+});
+</script>
 </body>
 </html>
+
