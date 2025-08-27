@@ -889,9 +889,18 @@ const menuItems = [
       modal.appendChild(abandonResult);
       modal.appendChild(decreaseResult);
     } else {
-      const noScrollResult = document.createElement('p');
-      noScrollResult.textContent = 'No scrolling was detected before the button was clicked.';
-      modal.appendChild(noScrollResult);
+      const timeResult = document.createElement('p');
+      const changesResult = document.createElement('p');
+      const abandonResult = document.createElement('p');
+      const decreaseResult = document.createElement('p');
+      timeResult.textContent = `Time from first scroll to click: NA`;
+      changesResult.textContent = `Number of scroll direction changes: NA`;
+      abandonResult.textContent = `Number of cart abandoned: ${abandonCounter}.`;
+      decreaseResult.textContent = `Number of items decreased: ${decreaseCounter}.`;
+      modal.appendChild(timeResult);
+      modal.appendChild(changesResult);
+      modal.appendChild(abandonResult);
+      modal.appendChild(decreaseResult);
     }
     
 
@@ -1017,4 +1026,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
 
