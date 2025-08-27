@@ -382,16 +382,13 @@
     var abandonCounter = 0;
     // --- DATA ---
 const menuItems = [
+
     // --- Cheese Burst ---
     { id: 1, name: 'Peppy Paneer Cheese Burst', price: 338, category: 'Cheese Burst', description: 'Spicy paneer, crisp capsicum, and red paprika on a cheese-filled crust.', img: 'https://b.zmtcdn.com/data/dish_photos/7cb/7e49fa4afad8de5f35dcad407c62a7cb.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 4, name: 'Margherita Cheese Burst', price: 188, category: 'Cheese Burst', description: 'A classic favorite with a cheesy twist. Simple, yet delicious.', img: 'https://b.zmtcdn.com/data/dish_photos/fc0/cac9edb0a1701792958c03141c5f3fc0.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 5, name: 'Spiced Double Chicken Pizza', price: 368, category: 'Cheese Burst', description: 'A treat for chicken lovers with spicy chicken and grilled chicken rashers.', img: 'https://b.zmtcdn.com/data/dish_photos/87e/f27758421f37cbaa2986fbad8bdac87e.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
-    { id: 6, name: 'Mexican Green Wave Cheese Burst', price: 348, category: 'Cheese Burst', description: 'A Mexican-inspired pizza with onion, capsicum, tomatoes, and jalapeños.', img: 'https://b.zmtcdn.com/data/dish_photos/38b/834319fb7a8c5a61d08ab17fdd21b38b.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 9, name: 'Indi Chicken Tikka Cheese Burst', price: 448, category: 'Cheese Burst', description: 'The perfect fusion of tandoori flavor with chicken tikka on a pizza.', img: 'https://b.zmtcdn.com/data/dish_photos/248/af5e014632ca4e743adfefeacbcb6248.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 10, name: 'Double Cheese Margherita Cheese Burst', price: 278, category: 'Cheese Burst', description: 'The classic margherita, loaded with an extra layer of mozzarella cheese.', img: 'https://b.zmtcdn.com/data/dish_photos/d23/cc6c97229b97246db3b6ca9e8bdded23.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
-    { id: 11, name: 'Cheese n Corn Cheese Burst', price: 278, category: 'Cheese Burst', description: 'A delicious combination of sweet corn and mozzarella cheese.', img: 'https://b.zmtcdn.com/data/dish_photos/168/75c3665fbef1048c8bec5ef05ac10168.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
-    { id: 13, name: 'Chicken Fiesta Cheese Burst', price: 398, category: 'Cheese Burst', description: 'Grilled chicken, onion, capsicum, and jalapeños for a flavor party.', img: 'https://b.zmtcdn.com/data/dish_photos/d4b/71b3f1f6d3211bc2f442588a5be56d4b.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
-    { id: 14, name: 'Fresh Veggie Cheese Burst', price: 288, category: 'Cheese Burst', description: 'A simple, classic veggie pizza with onion and capsicum.', img: 'https://b.zmtcdn.com/data/dish_photos/f30/5035ef13a73f89b65b26f5e0e862df30.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 15, name: 'Chicken Pepperoni Cheese Burst', price: 448, category: 'Cheese Burst', description: 'Classic pepperoni pizza with a cheese-stuffed crust.', img: 'https://b.zmtcdn.com/data/dish_photos/fa1/63acfc33bbc9ca57c5cd13df010f2fa1.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 8, name: 'Indi Tandoori Paneer Cheese Burst', price: 398, category: 'Cheese Burst', description: 'Tandoori paneer and onion with a tangy makhani sauce.', img: 'https://b.zmtcdn.com/data/dish_photos/055/af042c5ad74d3346b869b839402a2055.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
     { id: 3, name: 'Veggie Paradise Cheese Burst', price: 348, category: 'Cheese Burst', description: 'Golden corn, black olives, capsicum, and red paprika for a veggie delight.', img: 'https://b.zmtcdn.com/data/dish_photos/f94/46e09ecd659826d57b16bd26854d5f94.jpeg?fit=around|85:85&crop=85:85;*,*', customizable: true },
@@ -479,10 +476,9 @@ const menuItems = [
 
 
     const toppings = [
-        { name: 'Extra Cheese', price: 50 }, { name: 'Onion', price: 20 },
-        { name: 'Capsicum', price: 25 }, { name: 'Jalapeno', price: 30 },
-        { name: 'Mushroom', price: 40 }, { name: 'Paneer', price: 45 },
-        { name: 'Chicken Tikka', price: 60 }
+        { name: 'Extra Cheese', price: 50 }, 
+        { name: 'Capsicum', price: 25 }, 
+        { name: 'Mushroom', price: 40 }
     ];
 
     let cart = {};
